@@ -1,44 +1,45 @@
-# OUI
+# Obabok Client
 
-Мультимодовый Gradle-проект: библиотека + тестовый мод в одном репозитории.
+A multi-module Fabric project: a client mod, the **OUI** library and a set of modules bundled into a single jar.
 
-## Модули
+## Structure
 
-- `oui` — библиотека **OUI** (`modid: oui`, пакет `ru.obabok.oui`)
-  - API-класс: `ru.obabok.oui.OuiApi`
-  - Энтрипоинты: `OuiInit` (main), `OuiClientInit` (client)
-- `o-client` — тестовый мод (`modid: o-client`, пакет `ru.obabok.o_client`)
-  - Зависит от `:oui` через `modImplementation project(':oui')`
-  - В `fabric.mod.json` объявлена зависимость `"oui": "*"`
+| Project | Description |
+| --- | --- |
+| `oui` | **OUI** library (`modid: oui`, package `ru.obabok.oui`) — UI widgets, configs, API (`ru.obabok.oui.OuiApi`) |
+| `o-client` | Client mod (`modid: o-client`), depends on `:oui` |
+| `o-base` | Combined mod (`modid: o-base`): fat-jar with all project modules |
+| `modules/` | Standalone modules, each with its own `fabric.mod.json` |
 
-## Версии (как в AreaScanner / ApolloCarpetAdditions)
+All modules are picked up by the build automatically: `settings.gradle` scans directories containing a `build.gradle`, and `o-base` includes every module into the fat-jar.
+
+## Versions
 
 - Minecraft `26.3`, loader `0.19.5`, loom `1.17-SNAPSHOT`
 - Fabric API `0.161.0+26.3`, Java `25`
-- Общие версии лежат в корневом `gradle.properties`
+- Shared versions live in the root `gradle.properties`
 
-## Сборка
-
-```bash
-./gradlew build          # оба мода
-./gradlew :oui:build     # только библиотека
-./gradlew :o-client:build  # только тестовый мод
-```
-
-Готовые jar: `oui`, `o-client`.
-
-## Требования к JDK
-
-Нужен полный JDK 25 (с `javac`). Если `java` по умолчанию — JRE без компилятора:
+## Build
 
 ```bash
-export JAVA_HOME=/usr/lib/jvm/jdk-25.0.2
-./gradlew build
+./gradlew build            # everything, jars go to build/libs/
+./gradlew :o-base:build    # only the combined jar
 ```
 
-## Запуск клиента
+Built jars: `build/libs/` (all modules + `o-base`).
+
+Every push and pull request is built in CI, and the `o-base` fat-jar is uploaded as an artifact.
+
+## Running the client
 
 ```bash
-./gradlew :o-client:runClient   # тестмод + библиотека на classpath
-./gradlew :oui:runClient           # только библиотека
+./gradlew :o-base:runClient
 ```
+
+## New module
+
+```bash
+./create_module.sh o-my-module
+```
+
+Creates a module scaffold in `modules/o-my-module` (build.gradle, fabric.mod.json, mixins, config).
