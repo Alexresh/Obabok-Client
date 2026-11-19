@@ -1,0 +1,17 @@
+{
+  "required": true,
+  "package": "ru.obabok.blockupdates.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "NeighborUpdaterMixin"
+  ],
+  "client": [
+    "ClientLevelMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
+    }
+}

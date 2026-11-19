@@ -1,0 +1,18 @@
+{
+	"schemaVersion": 1,
+	"id": "bot-manager",
+	"version": "${version}",
+	"name": "BotManager",
+	"authors": [
+  	"Obabok"
+  ],
+	"environment": "*",
+	"entrypoints": {
+		"client": ["ru.obabok.botmanager.BotManagerModuleInit"]
+	},
+	"mixins": [
+  		{
+  			"config": "bot-manager.mixins.json"
+  		}
+	]
+}

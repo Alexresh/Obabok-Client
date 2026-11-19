@@ -1,0 +1,18 @@
+{
+	"schemaVersion": 1,
+	"id": "random-tick-render",
+	"version": "${version}",
+	"name": "RandomTickRender",
+	"authors": [
+  	"Obabok"
+  ],
+	"environment": "*",
+	"entrypoints": {
+		"main": ["ru.obabok.randomtickrender.RandomTickRenderModuleInit"]
+	},
+	"mixins": [
+  		{
+  			"config": "random-tick-render.mixins.json"
+  		}
+	]
+}

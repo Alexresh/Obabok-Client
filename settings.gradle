@@ -1,0 +1,27 @@
+pluginManagement {
+    repositories {
+        maven {
+            name = 'Fabric'
+            url = 'https://maven.fabricmc.net/'
+        }
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+
+rootProject.name = 'oui-root'
+
+include('o-base')
+include('oui')
+include('o-client')
+['modules', 'extra'].each { base ->
+    def root = file(base)
+    if (root.isDirectory()) {
+        root.eachDir { dir ->
+            if (new File(dir, 'build.gradle').exists()) {
+                include dir.name
+                project(":${dir.name}").projectDir = dir
+            }
+        }
+    }
+}

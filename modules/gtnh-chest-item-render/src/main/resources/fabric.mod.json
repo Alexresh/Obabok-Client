@@ -1,0 +1,18 @@
+{
+	"schemaVersion": 1,
+	"id": "gtnh-chest-item-render",
+	"version": "${version}",
+	"name": "GtnhChestItemRender",
+	"authors": [
+  	"Obabok"
+  ],
+	"environment": "*",
+	"entrypoints": {
+		"client": ["ru.obabok.gtnhchestitemrender.GtnhChestItemRenderModuleInit"]
+	},
+	"mixins": [
+  		{
+  			"config": "gtnh-chest-item-render.mixins.json"
+  		}
+	]
+}

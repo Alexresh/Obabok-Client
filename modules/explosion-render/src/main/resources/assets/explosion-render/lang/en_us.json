@@ -1,0 +1,7 @@
+{
+  "o-base.config.module.explosion_render": "Explosion render",
+  "o-base.config.module.explosion_render.enabled": "Enabled",
+  "o-base.config.module.explosion_render.size": "Size",
+  "o-base.config.module.explosion_render.ticks": "Highlight ticks",
+  "o-base.config.module.explosion_render.color": "Color"
+}

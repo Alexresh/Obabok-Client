@@ -1,0 +1,6 @@
+{
+  "o-base.config.module.sound_render": "Sound render",
+  "o-base.config.module.sound_render.sound_render_ticks": "Render ticks",
+  "o-base.config.module.sound_render.sound_event_color": "Sound event color",
+  "o-base.config.module.sound_render.sound_event_size": "Sound event size"
+}

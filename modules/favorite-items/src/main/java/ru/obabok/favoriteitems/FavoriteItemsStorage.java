@@ -1,0 +1,132 @@
+package ru.obabok.favoriteitems;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.client.Minecraft;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.component.TypedDataComponent;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtOps;
+import net.minecraft.nbt.Tag;
+import net.minecraft.resources.RegistryOps;
+import net.minecraft.world.item.ItemStack;
+import ru.obabok.o_client.References;
+
+import java.io.IOException;
+import java.io.Reader;
+import java.io.Writer;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+public class FavoriteItemsStorage {
+
+    private static final Set<String> favoriteItems = new HashSet<>();
+    private static Path saveFile;
+    private static final Set<String> IGNORED = Set.of("minecraft:damage", "minecraft:repair_cost");
+
+    public static void init(Minecraft minecraft){
+        String gameName = getGameName(minecraft);
+        saveFile = FabricLoader.getInstance().getConfigDir().resolve(References.MOD_ID).resolve("FavoriteItems").resolve(gameName);
+        try {
+            Files.createDirectories(saveFile.getParent());
+        } catch (IOException e) {
+            References.LOGGER.error(e.getMessage());
+        }
+        load();
+    }
+
+    public static void addFavoriteItem(ItemStack item) {
+        favoriteItems.add(getItemStackKey(item));
+        saveFavorites();
+    }
+
+    public static void removeFavoriteItem(ItemStack item) {
+        favoriteItems.remove(getItemStackKey(item));
+        saveFavorites();
+    }
+
+    public static boolean isFavoriteItem(ItemStack item) {
+        return favoriteItems.contains(getItemStackKey(item));
+    }
+
+    private static void load() {
+        favoriteItems.clear();
+        if (saveFile == null || !Files.exists(saveFile)) return;
+
+        try (Reader reader = Files.newBufferedReader(saveFile)) {
+            JsonArray arr = JsonParser.parseReader(reader).getAsJsonArray();
+            for (JsonElement el : arr) {
+                favoriteItems.add(el.getAsString());
+            }
+        } catch (IOException e) {
+            References.LOGGER.error(e.getMessage());
+        }
+    }
+
+    private static void saveFavorites() {
+        if (saveFile == null) return;
+
+        try (Writer writer = Files.newBufferedWriter(saveFile, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)) {
+            JsonArray arr = new JsonArray();
+            for (String s : favoriteItems) arr.add(s);
+            Gson gson = new Gson();
+            gson.toJson(arr, writer);
+        } catch (IOException e) {
+            References.LOGGER.error(String.valueOf(e));
+        }
+    }
+
+
+    public static String getItemStackKey(ItemStack stack) {
+        if (stack.isEmpty()) return "";
+        RegistryAccess access = Minecraft.getInstance().level.registryAccess();
+        RegistryOps<Tag> ops = access.createSerializationContext(NbtOps.INSTANCE);
+
+        CompoundTag root = (CompoundTag) ItemStack.CODEC.encodeStart(ops, stack).getOrThrow();
+        root.remove("count"); // 1 алмаз == 64 алмаза
+        if (root.get("components") instanceof CompoundTag comps) {
+            IGNORED.forEach(comps::remove); // износ и repair_cost не сбрасывают избранное
+        }
+        return canonical(root);
+    }
+
+    private static String canonical(Tag tag) {
+        if (tag instanceof CompoundTag c) {
+            return c.keySet().stream().sorted()
+                    .map(k -> k + "=" + canonical(c.get(k)))
+                    .collect(Collectors.joining(",", "{", "}"));
+        }
+        if (tag instanceof ListTag list) { // порядок списков важен (lore) — не сортируем
+            StringBuilder sb = new StringBuilder("[");
+            for (Tag t : list) sb.append(canonical(t)).append(',');
+            return sb.append(']').toString();
+        }
+        return tag.getId() + ":" + tag.asString(); // примитивы стабильны, тип не теряем
+    }
+
+    private static String getGameName(Minecraft minecraft){
+        String gameName;
+
+        if (minecraft.isLocalServer() && minecraft.getSingleplayerServer() != null){
+            gameName = "smp_" + minecraft.getSingleplayerServer().getWorldData().getLevelName() + ".json";
+        } else if (minecraft.getCurrentServer() != null){
+            gameName = "mp_" + minecraft.getCurrentServer().ip.replace(":", "_") + ".json";
+        } else {
+            gameName = "who.json";
+        }
+
+        return gameName;
+    }
+}

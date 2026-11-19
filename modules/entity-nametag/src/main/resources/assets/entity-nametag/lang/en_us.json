@@ -1,0 +1,7 @@
+{
+  "o-base.config.module.entity_nametag": "Entity Nametag",
+  "o-base.config.module.entity_nametag.enabled": "Enabled",
+  "o-base.config.module.entity_nametag.health": "Health",
+  "o-base.config.module.entity_nametag.tropical_fish_info": "Tropical fish info",
+  "o-base.config.module.entity_nametag.horse_info": "Horse info"
+}

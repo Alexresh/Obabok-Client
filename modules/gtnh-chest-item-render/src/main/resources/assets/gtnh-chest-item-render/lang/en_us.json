@@ -1,0 +1,7 @@
+{
+  "o-base.config.module.gtnh_chest_item_render": "Chest items render",
+  "o-base.config.module.gtnh_chest_item_render.enabled": "Enabled",
+  "o-base.config.module.gtnh_chest_item_render.distance": "Distance between chest and items",
+  "o-base.config.module.gtnh_chest_item_render.spacing": "Spacing",
+  "o-base.config.module.gtnh_chest_item_render.scale": "Scale"
+}

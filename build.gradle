@@ -1,0 +1,160 @@
+subprojects {
+	apply plugin: 'java'
+
+	tasks.withType(JavaCompile).configureEach {
+		it.options.encoding = 'UTF-8'
+		it.options.release = 25
+	}
+
+	java {
+		sourceCompatibility = JavaVersion.VERSION_25
+		targetCompatibility = JavaVersion.VERSION_25
+	}
+}
+
+tasks.register('copyArtifacts', Copy) {
+	dependsOn subprojects.collect { it.tasks.named('build') }
+
+	subprojects.each { subproject ->
+		from(subproject.layout.buildDirectory.dir("libs")) {
+			include "*.jar"
+			exclude "*-dev.jar"
+			exclude "*-sources.jar"
+		}
+	}
+
+	into(rootProject.layout.buildDirectory.dir("libs"))
+}
+
+if (tasks.names.contains('build')) {
+	tasks.named('build') {
+		dependsOn 'copyArtifacts'
+	}
+} else {
+	tasks.register('build') {
+		dependsOn 'copyArtifacts'
+	}
+}
+
+tasks.register('deployToPrism', Copy) {
+	dependsOn 'copyArtifacts'
+
+	group = 'deployment'
+	description = 'Copy mods into Prism Launcher instance. Require -instance=<instance name> -prismDir= if not found'
+
+	outputs.upToDateWhen { false }
+
+	def instanceName = providers.gradleProperty('instance').orNull
+
+	//os
+	def os = org.gradle.internal.os.OperatingSystem.current()
+	def defaultPrismDir
+	if (providers.gradleProperty('prismDir').isPresent()) {
+		defaultPrismDir = providers.gradleProperty('prismDir').get()
+	} else if (os.isLinux()) {
+		defaultPrismDir = "${System.getProperty('user.home')}/.local/share/PrismLauncher/instances"
+	} else if (os.isWindows()) {
+		defaultPrismDir = "${System.getenv('APPDATA')}/PrismLauncher/instances"
+	} else if (os.isMacOsX()) {
+		defaultPrismDir = "${System.getProperty('user.home')}/Library/Application Support/PrismLauncher/instances"
+	} else {
+		defaultPrismDir = "${System.getProperty('user.home')}/.local/share/PrismLauncher/instances"
+	}
+
+	def instancesDir = file(defaultPrismDir)
+	def modsDir = new File(instancesDir, "${instanceName ?: '_undefined_'}/minecraft/mods")
+
+	from(rootProject.layout.buildDirectory.dir("libs")) {
+		include "*.jar"
+		exclude "*-dev.jar"
+		exclude "*-sources.jar"
+	}
+	into(modsDir)
+
+	doFirst {
+		def osHint = os.isWindows() ? 'Windows' : os.isMacOsX() ? 'macOS' : 'Linux'
+
+		// 1. Проверка параметра
+		if (!instanceName?.trim()) {
+			def available = instancesDir.isDirectory()
+					? instancesDir.listFiles().findAll { it.isDirectory() }.collect { it.name }.sort()
+					: []
+
+			throw new GradleException("""
+                |================ ОШИБКА: не указано имя инстанса ================
+                |
+                |Задача deployToPrism требует параметр -Pinstance=<имя инстанса>.
+                |
+                |Из терминала:
+                |    ./gradlew deployToPrism  ="Dev 1.21"
+                |
+                |В IntelliJ IDEA:
+                |    1) Run -> Edit Configurations...
+                |    2) Нажми + -> Gradle (или выбери существующую конфигурацию)
+                |    3) В поле "Run" впиши:
+                |           deployToPrism -Pinstance="Dev 1.21"
+                |    4) Working directory: корень проекта
+                |    5) Apply -> Run
+                |
+                |Чтобы не писать параметр каждый раз, добавь строку в gradle.properties
+                |(или в ~/.gradle/gradle.properties, чтобы не коммитить её):
+                |    instance=Dev 1.21
+                |
+                |Автоопределена ОС: ${osHint}
+                |Путь к инстансам: ${instancesDir}
+                |
+                |Доступные инстансы:
+                |${available.isEmpty() ? '    (папка пуста или не найдена)' : available.collect { '    - ' + it }.join('\n')}
+                |
+                |Если Prism установлен нестандартно, укажи путь вручную:
+                |    -PprismDir="/путь/к/папке/instances"
+                |==============================================================
+            """.stripMargin())
+		}
+
+		// 2. Проверка самого инстанса
+		def instanceDir = new File(instancesDir, instanceName)
+		if (!instanceDir.isDirectory()) {
+			def available = instancesDir.isDirectory()
+					? instancesDir.listFiles().findAll { it.isDirectory() }.collect { it.name }.sort()
+					: []
+			throw new GradleException("""
+                |================ ОШИБКА: инстанс не найден ================
+                |Инстанс "${instanceName}" не существует:
+                |    ${instanceDir}
+                |
+                |Автоопределена ОС: ${osHint}
+                |Путь к инстансам: ${instancesDir}
+                |
+                |Доступные инстансы:
+                |${available.isEmpty() ? '    (ни одного)' : available.collect { '    - ' + it }.join('\n')}
+                |
+                |Если Prism установлен нестандартно, укажи путь вручную:
+                |    -PprismDir="/путь/к/папке/instances"
+                |==========================================================
+            """.stripMargin())
+		}
+
+		// 3. Проверка папки модов
+		if (!modsDir.isDirectory()) {
+			throw new GradleException("""
+                |================ ОШИБКА: папка модов отсутствует ================
+                |Ожидалась папка:
+                |    ${modsDir}
+                |
+                |Инстанс "${instanceName}" существует, но папки mods нет.
+                |Возможные причины:
+                |    - в инстансе ни разу не запускался Minecraft / не установлен Fabric
+                |    - инстанс использует другую папку игры (проверь настройки инстанса)
+                |    - опечатка в имени инстанса
+                |
+                |Папка НЕ создана автоматически, чтобы не засорять файловую систему.
+                |Создай её вручную, если уверен, что путь верный:
+                |    mkdir -p "${modsDir}"
+                |===============================================================
+            """.stripMargin())
+		}
+
+		println "Деплой в инстанс '${instanceName}' (${osHint}): ${modsDir}"
+	}
+}

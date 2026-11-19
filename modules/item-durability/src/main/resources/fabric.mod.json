@@ -1,0 +1,18 @@
+{
+	"schemaVersion": 1,
+	"id": "item-durability",
+	"version": "${version}",
+	"name": "ItemDurability",
+	"authors": [
+  	"Obabok"
+  ],
+	"environment": "*",
+	"entrypoints": {
+		"client": ["ru.obabok.itemdurability.ItemDurabilityModuleInit"]
+	},
+	"mixins": [
+  		{
+  			"config": "item-durability.mixins.json"
+  		}
+	]
+}

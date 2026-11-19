@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "package": "ru.obabok.spectator.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [],
+  "client": [
+    "MinecraftMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
+    }
+}

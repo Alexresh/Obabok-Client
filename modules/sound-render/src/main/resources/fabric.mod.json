@@ -1,0 +1,18 @@
+{
+	"schemaVersion": 1,
+	"id": "sound-render",
+	"version": "${version}",
+	"name": "SoundRender",
+	"authors": [
+  	"Obabok"
+  ],
+	"environment": "*",
+	"entrypoints": {
+		"client": ["ru.obabok.soundrender.SoundRenderModuleInit"]
+	},
+	"mixins": [
+  		{
+  			"config": "sound-render.mixins.json"
+  		}
+	]
+}

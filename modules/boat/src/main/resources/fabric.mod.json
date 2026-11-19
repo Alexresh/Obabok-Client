@@ -1,0 +1,18 @@
+{
+	"schemaVersion": 1,
+	"id": "boat",
+	"version": "${version}",
+	"name": "Boat",
+	"authors": [
+  	"Obabok"
+  ],
+	"environment": "*",
+	"entrypoints": {
+		"client": ["ru.obabok.boat.BoatModuleInit"]
+	},
+	"mixins": [
+  		{
+  			"config": "boat.mixins.json"
+  		}
+	]
+}

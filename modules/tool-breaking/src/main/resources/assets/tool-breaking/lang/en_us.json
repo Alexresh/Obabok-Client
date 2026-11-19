@@ -1,0 +1,5 @@
+{
+  "o-base.config.module.tool_breaking": "Tool breaking",
+  "o-base.config.module.tool_breaking.disable_tool_breaking": "Disable tool breaking",
+  "o-base.config.module.tool_breaking.disable_tool_breaking_min_durability": "Min tool durability"
+}

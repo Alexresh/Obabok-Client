@@ -1,0 +1,20 @@
+{
+	"schemaVersion": 1,
+	"id": "favorite-items",
+	"version": "${version}",
+	"name": "FavoriteItems",
+	"authors": [
+  	"Obabok"
+  ],
+	"environment": "*",
+	"entrypoints": {
+		"client": [
+			"ru.obabok.favoriteitems.FavoriteItemsModuleInit"
+		]
+	},
+	"mixins": [
+  		{
+  			"config": "favorite-items.mixins.json"
+  		}
+	]
+}

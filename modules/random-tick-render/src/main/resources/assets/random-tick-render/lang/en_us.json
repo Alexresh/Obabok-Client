@@ -1,0 +1,10 @@
+{
+  "o-base.config.module.random_tick_render": "Random ticks",
+  "o-base.config.module.random_tick_render.all": "Show all random ticks",
+  "o-base.config.module.random_tick_render.all_tick_color": "All ticks color",
+  "o-base.config.module.random_tick_render.block_state": "Block state random ticks",
+  "o-base.config.module.random_tick_render.block_state_tick_color": "Block state ticks color",
+  "o-base.config.module.random_tick_render.fluid_state": "Fluid state random ticks",
+  "o-base.config.module.random_tick_render.fluid_state_tick_color": "Fluid state ticks color",
+  "o-base.config.module.random_tick_render.show_time": "Highlight ticks"
+}

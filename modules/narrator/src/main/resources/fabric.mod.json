@@ -1,0 +1,18 @@
+{
+	"schemaVersion": 1,
+	"id": "narrator",
+	"version": "${version}",
+	"name": "Narrator",
+	"authors": [
+  	"Obabok"
+  ],
+	"environment": "*",
+	"entrypoints": {
+		"main": ["ru.obabok.narrator.NarratorModuleInit"]
+	},
+	"mixins": [
+  		{
+  			"config": "narrator.mixins.json"
+  		}
+	]
+}

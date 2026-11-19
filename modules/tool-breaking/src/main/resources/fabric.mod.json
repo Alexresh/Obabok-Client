@@ -1,0 +1,18 @@
+{
+	"schemaVersion": 1,
+	"id": "tool-breaking",
+	"version": "${version}",
+	"name": "ToolBreaking",
+	"authors": [
+  	"Obabok"
+  ],
+	"environment": "*",
+	"entrypoints": {
+		"client": ["ru.obabok.toolbreaking.ToolBreakingModuleInit"]
+	},
+	"mixins": [
+  		{
+  			"config": "tool-breaking.mixins.json"
+  		}
+	]
+}

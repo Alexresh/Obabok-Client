@@ -1,0 +1,21 @@
+{
+	"schemaVersion": 1,
+	"id": "o-base",
+	"version": "${version}",
+	"name": "o-base",
+	"description": "",
+	"authors": [
+		"Obabok"
+	],
+	"license": "LGPL-3.0",
+	"environment": "*",
+	"entrypoints": {
+
+	},
+	"depends": {
+		"fabricloader": ">=0.19.5",
+		"minecraft": "~26.3",
+		"java": ">=25",
+		"fabric-api": "*"
+	}
+}

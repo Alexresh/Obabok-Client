@@ -1,0 +1,18 @@
+{
+	"schemaVersion": 1,
+	"id": "particle-render",
+	"version": "${version}",
+	"name": "ParticleRender",
+	"authors": [
+  	"Obabok"
+  ],
+	"environment": "*",
+	"entrypoints": {
+		"main": ["ru.obabok.particlerender.ParticleRenderModuleInit"]
+	},
+	"mixins": [
+  		{
+  			"config": "particle-render.mixins.json"
+  		}
+	]
+}

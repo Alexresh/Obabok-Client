@@ -1,0 +1,18 @@
+{
+	"schemaVersion": 1,
+	"id": "block-updates",
+	"version": "${version}",
+	"name": "BlockUpdates",
+	"authors": [
+  	"Obabok"
+  ],
+	"environment": "*",
+	"entrypoints": {
+		"main": ["ru.obabok.blockupdates.BlockUpdatesModuleInit"]
+	},
+	"mixins": [
+  		{
+  			"config": "block-updates.mixins.json"
+  		}
+	]
+}

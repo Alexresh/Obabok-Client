@@ -1,0 +1,20 @@
+{
+	"schemaVersion": 1,
+	"id": "lag-detector",
+	"version": "${version}",
+	"name": "LagDetector",
+	"authors": [
+  	"Obabok"
+  ],
+	"environment": "*",
+	"entrypoints": {
+		"client": [
+			"ru.obabok.lagdetector.LagDetectorModuleInit"
+		]
+	},
+	"mixins": [
+  		{
+  			"config": "lag-detector.mixins.json"
+  		}
+	]
+}

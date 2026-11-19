@@ -1,0 +1,9 @@
+{
+  "o-base.config.module.hud_render_module": "O_HUD",
+  "o-base.config.module.hud_render_module.show_highlight_blocks_count": "Show highlight blocks count",
+
+  "o-base.config.module.level_render": "O_Level render",
+  "o-base.config.module.level_render.bounding_box_color": "Bounding box color"
+
+
+}

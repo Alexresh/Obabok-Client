@@ -1,0 +1,18 @@
+{
+	"schemaVersion": 1,
+	"id": "entity-bounding-box",
+	"version": "${version}",
+	"name": "EntityBoundingBox",
+	"authors": [
+  	"Obabok"
+  ],
+	"environment": "*",
+	"entrypoints": {
+		"client": ["ru.obabok.entityboundingbox.EntityBoundingBoxModuleInit"]
+	},
+	"mixins": [
+  		{
+  			"config": "entity-bounding-box.mixins.json"
+  		}
+	]
+}

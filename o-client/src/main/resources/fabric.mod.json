@@ -1,0 +1,33 @@
+{
+	"schemaVersion": 1,
+	"id": "o-client",
+	"version": "${version}",
+	"name": "O Client",
+	"description": "Obabok client",
+	"authors": [
+		"Obabok"
+	],
+	"license": "LGPL-3.0",
+	"icon": "assets/o-client/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"ru.obabok.o_client.O_Init"
+		],
+		"client": [
+			"ru.obabok.o_client.client.O_ClientInit"
+		]
+	},
+	"mixins": [
+		{
+			"config": "o-client.mixins.json"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.19.5",
+		"minecraft": "~26.3",
+		"java": ">=25",
+		"fabric-api": "*",
+		"oui": "*"
+	}
+}

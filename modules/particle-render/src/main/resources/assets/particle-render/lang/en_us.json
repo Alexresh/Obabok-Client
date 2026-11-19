@@ -1,0 +1,5 @@
+{
+  "o-base.config.module.particle_render": "Particle render",
+  "o-base.config.module.particle_render.bounding_box": "Bounding box",
+  "o-base.config.module.particle_render.particle_name": "Name"
+}

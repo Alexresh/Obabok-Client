@@ -1,0 +1,35 @@
+{
+	"schemaVersion": 1,
+	"id": "oui",
+	"version": "${version}",
+	"name": "OUI",
+	"description": "Obabok UI - shared library mod",
+	"authors": [
+		"Obabok"
+	],
+	"contact": {
+		"discord": "https://discord.com/users/393506669532938240"
+	},
+	"license": "LGPL-3.0",
+	"icon": "assets/oui/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"ru.obabok.oui.OuiInit"
+		],
+		"client": [
+			"ru.obabok.oui.OuiClientInit"
+		]
+	},
+	"mixins": [
+		{
+			"config": "oui.mixins.json"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.19.5",
+		"minecraft": "~26.3",
+		"java": ">=25",
+		"fabric-api": "*"
+	}
+}

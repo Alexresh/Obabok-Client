@@ -1,0 +1,18 @@
+{
+	"schemaVersion": 1,
+	"id": "pick-block",
+	"version": "${version}",
+	"name": "PickBlock",
+	"authors": [
+  	"Obabok"
+  ],
+	"environment": "*",
+	"entrypoints": {
+		"main": ["ru.obabok.pickblock.PickBlockModuleInit"]
+	},
+	"mixins": [
+  		{
+  			"config": "pick-block.mixins.json"
+  		}
+	]
+}

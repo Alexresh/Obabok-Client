@@ -1,0 +1,18 @@
+{
+	"schemaVersion": 1,
+	"id": "armor-hud",
+	"version": "${version}",
+	"name": "ArmorHud",
+	"authors": [
+  	"Obabok"
+  ],
+	"environment": "*",
+	"entrypoints": {
+		"client": ["ru.obabok.armorhud.ArmorHudModuleInit"]
+	},
+	"mixins": [
+  		{
+  			"config": "armor-hud.mixins.json"
+  		}
+	]
+}

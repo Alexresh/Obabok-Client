@@ -1,0 +1,10 @@
+{
+  "o-base.config.module.block_updates": "Block updates",
+  "o-base.config.module.block_updates.neighbor_update": "Neighbor update",
+  "o-base.config.module.block_updates.neighbor_update_color": "Neighbor update color",
+  "o-base.config.module.block_updates.shape_update": "Shape update",
+  "o-base.config.module.block_updates.shape_update_color": "Shape update color",
+  "o-base.config.module.block_updates.packet_update": "Packet update",
+  "o-base.config.module.block_updates.packet_update_color": "Packet update color",
+  "o-base.config.module.block_updates.show_time": "Highlight ticks"
+}

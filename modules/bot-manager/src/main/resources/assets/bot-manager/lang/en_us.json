@@ -1,0 +1,6 @@
+{
+  "o-base.config.module.bot_manager": "Bot manager",
+  "o-base.config.module.bot_manager.bot_team": "Bot team",
+  "key.category.o-base.bot_manager": "Bot manager",
+  "key.bot_manager.open_screen": "Open bot manager screen"
+}
