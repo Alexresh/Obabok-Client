@@ -21,5 +21,11 @@ public class EntityNametagConfig implements OConfigInstance {
 
 		@ConfigValue
 		public boolean horseInfo = false;
+
+		@ConfigValue
+		public boolean itemInfo = false;
+
+		@ConfigValue
+		public boolean itemHealth = false;
 	}
 }

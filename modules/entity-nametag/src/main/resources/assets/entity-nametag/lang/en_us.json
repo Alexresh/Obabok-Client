@@ -3,5 +3,8 @@
   "o-base.config.module.entity_nametag.enabled": "Enabled",
   "o-base.config.module.entity_nametag.health": "Health",
   "o-base.config.module.entity_nametag.tropical_fish_info": "Tropical fish info",
-  "o-base.config.module.entity_nametag.horse_info": "Horse info"
+  "o-base.config.module.entity_nametag.horse_info": "Horse info",
+  "o-base.config.module.entity_nametag.item_info": "Item info",
+  "o-base.config.module.entity_nametag.item_health": "Item health",
+  "o-base.config.module.entity_nametag.item_target": "Item target"
 }
