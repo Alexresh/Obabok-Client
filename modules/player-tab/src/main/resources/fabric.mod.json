@@ -1,0 +1,18 @@
+{
+	"schemaVersion": 1,
+	"id": "player-tab",
+	"version": "${version}",
+	"name": "PlayerTab",
+	"authors": [
+  	"Obabok"
+  ],
+	"environment": "*",
+	"entrypoints": {
+		"client": ["ru.obabok.playertab.PlayerTabModuleInit"]
+	},
+	"mixins": [
+  		{
+  			"config": "player-tab.mixins.json"
+  		}
+	]
+}
