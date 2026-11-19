@@ -2,7 +2,7 @@ plugins {
     id 'net.fabricmc.fabric-loom' version "${loom_version}"
     id 'maven-publish'
 }
-version = favoriteitems_version
+version = favorite_items_version
 group = maven_group
 
 base {
