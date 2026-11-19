@@ -105,8 +105,8 @@ cat > "$DIR/src/main/java/$PKG/${CAMEL}ModuleInit.java" <<EOF
 package ru.obabok.$PKGNAME;
 
 import net.fabricmc.api.ClientModInitializer;
-import ru.obabok.oui.newConfig.OConfig;
-import ru.obabok.oui.newConfig.Product;
+import ru.obabok.oui.config.OConfig;
+import ru.obabok.oui.config.Product;
 
 public class ${CAMEL}ModuleInit implements ClientModInitializer {
 	public static ${CAMEL}Config config;
