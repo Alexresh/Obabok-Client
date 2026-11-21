@@ -1,16 +1,9 @@
 package ru.obabok.favoriteitems;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.RegistryAccess;
-import net.minecraft.core.component.DataComponentMap;
-import net.minecraft.core.component.DataComponents;
-import net.minecraft.core.component.TypedDataComponent;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtOps;
@@ -18,6 +11,7 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.resources.RegistryOps;
 import net.minecraft.world.item.ItemStack;
 import ru.obabok.o_client.References;
+import ru.obabok.oui.config.Product;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -26,7 +20,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -36,9 +29,11 @@ public class FavoriteItemsStorage {
     private static Path saveFile;
     private static final Set<String> IGNORED = Set.of("minecraft:damage", "minecraft:repair_cost");
 
+    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
+
     public static void init(Minecraft minecraft){
         String gameName = getGameName(minecraft);
-        saveFile = FabricLoader.getInstance().getConfigDir().resolve(References.MOD_ID).resolve("FavoriteItems").resolve(gameName);
+        saveFile = FabricLoader.getInstance().getConfigDir().resolve(Product.ID).resolve("FavoriteItems").resolve(gameName);
         try {
             Files.createDirectories(saveFile.getParent());
         } catch (IOException e) {
@@ -80,9 +75,10 @@ public class FavoriteItemsStorage {
 
         try (Writer writer = Files.newBufferedWriter(saveFile, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)) {
             JsonArray arr = new JsonArray();
-            for (String s : favoriteItems) arr.add(s);
-            Gson gson = new Gson();
-            gson.toJson(arr, writer);
+            for (String s : favoriteItems) {
+                arr.add(s);
+            }
+            GSON.toJson(arr, writer);
         } catch (IOException e) {
             References.LOGGER.error(String.valueOf(e));
         }
@@ -90,14 +86,14 @@ public class FavoriteItemsStorage {
 
 
     public static String getItemStackKey(ItemStack stack) {
-        if (stack.isEmpty()) return "";
+        if (stack.isEmpty() || Minecraft.getInstance().level == null) return "";
         RegistryAccess access = Minecraft.getInstance().level.registryAccess();
         RegistryOps<Tag> ops = access.createSerializationContext(NbtOps.INSTANCE);
 
         CompoundTag root = (CompoundTag) ItemStack.CODEC.encodeStart(ops, stack).getOrThrow();
-        root.remove("count"); // 1 алмаз == 64 алмаза
+        root.remove("count");
         if (root.get("components") instanceof CompoundTag comps) {
-            IGNORED.forEach(comps::remove); // износ и repair_cost не сбрасывают избранное
+            IGNORED.forEach(comps::remove);
         }
         return canonical(root);
     }
@@ -108,12 +104,12 @@ public class FavoriteItemsStorage {
                     .map(k -> k + "=" + canonical(c.get(k)))
                     .collect(Collectors.joining(",", "{", "}"));
         }
-        if (tag instanceof ListTag list) { // порядок списков важен (lore) — не сортируем
+        if (tag instanceof ListTag list) {
             StringBuilder sb = new StringBuilder("[");
             for (Tag t : list) sb.append(canonical(t)).append(',');
             return sb.append(']').toString();
         }
-        return tag.getId() + ":" + tag.asString(); // примитивы стабильны, тип не теряем
+        return tag.getId() + ":" + tag.asString();
     }
 
     private static String getGameName(Minecraft minecraft){
