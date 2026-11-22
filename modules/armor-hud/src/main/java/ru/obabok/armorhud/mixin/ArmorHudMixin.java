@@ -14,7 +14,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import ru.obabok.armorhud.ArmorHudModuleInit;
-import ru.obabok.o_client.References;
 
 @Mixin(Hud.class)
 public abstract class ArmorHudMixin {
@@ -29,13 +28,12 @@ public abstract class ArmorHudMixin {
     @Inject(method = "extractItemHotbar", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;blitSprite(Lcom/mojang/renderpearl/api/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIII)V", ordinal = 0))
     private void renderArmor(GuiGraphicsExtractor graphics, DeltaTracker deltaTracker, CallbackInfo ci, @Local(ordinal = 0) int screenCenter, @Local(ordinal = 2) int halfHotbar){
         if(minecraft.player == null || minecraft.level == null || !ArmorHudModuleInit.config.ArmorHud.armorDamage) return;
-        int startX = screenCenter + halfHotbar + 10;
-        int startY = graphics.guiHeight() - 20;
-        int offset = 20;
+        int startX = (ArmorHudModuleInit.config.ArmorHud.right ? screenCenter + halfHotbar : screenCenter - halfHotbar) + ArmorHudModuleInit.config.ArmorHud.offsetX;
+        int startY = graphics.guiHeight() + ArmorHudModuleInit.config.ArmorHud.offsetY;
 
         for (int i = 0; i <= 3; i++) {
             graphics.pose().pushMatrix();
-            graphics.pose().translate(startX + i * offset, startY);
+            graphics.pose().translate(startX + (ArmorHudModuleInit.config.ArmorHud.right ? i : -i) * ArmorHudModuleInit.config.ArmorHud.spacing, startY);
             ItemStack itemStack = minecraft.player.getInventory().getItem(i + 36);
             graphics.item(itemStack, 0, 0);
             if(itemStack.isDamaged()){
@@ -44,7 +42,6 @@ public abstract class ArmorHudMixin {
                 String durabilityText = String.valueOf(itemStack.getMaxDamage() - itemStack.getDamageValue());
                 int textWidth = getFont().width(durabilityText);
                 graphics.text(getFont(), durabilityText, 16 - textWidth / 2, 30, 0xFF000000 | itemStack.getBarColor());
-                //graphics.text(getFont(), "" + (itemStack.getMaxDamage() - itemStack.getDamageValue()), 0, 30, 0xFF000000 | itemStack.getBarColor());
                 graphics.pose().popMatrix();
             }
 

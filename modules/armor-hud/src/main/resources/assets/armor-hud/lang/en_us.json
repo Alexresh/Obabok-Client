@@ -1,4 +1,8 @@
 {
   "o-base.config.module.armor_hud": "Armor hud",
-  "o-base.config.module.armor_hud.armor_damage": "Show armor damage in hud"
+  "o-base.config.module.armor_hud.armor_damage": "Show armor damage in hud",
+  "o-base.config.module.armor_hud.offset_x": "X offset from hud bar",
+  "o-base.config.module.armor_hud.offset_y": "Y offset from bottom side",
+  "o-base.config.module.armor_hud.right": "Show to the right of the hud",
+  "o-base.config.module.armor_hud.spacing": "Spacing between items"
 }

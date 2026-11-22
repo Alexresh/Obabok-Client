@@ -24,6 +24,6 @@ public class LagDetectorModuleInit implements ClientModInitializer {
 	}
 
 	public static boolean isLagging() {
-		return getTimeSinceLastPacket() > 1500;
+		return getTimeSinceLastPacket() > config.LagDetector.threshold;
 	}
 }

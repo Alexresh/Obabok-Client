@@ -1,4 +1,5 @@
 {
   "o-base.config.module.lag_detector": "Lag detector",
-  "o-base.config.module.lag_detector.lag_detector_enabled": "Enabled"
+  "o-base.config.module.lag_detector.lag_detector_enabled": "Enabled",
+  "o-base.config.module.lag_detector.threshold": "Threshold (ms)"
 }

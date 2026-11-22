@@ -12,5 +12,17 @@ public class ArmorHudConfig implements OConfigInstance {
     public static class ArmorHudModule {
         @ConfigValue
         public boolean armorDamage = false;
+
+        @ConfigValue
+        public boolean right = true;
+
+        @ConfigValue
+        public int offsetX = 10;
+
+        @ConfigValue
+        public int offsetY = -20;
+
+        @ConfigValue
+        public int spacing = 20;
     }
 }

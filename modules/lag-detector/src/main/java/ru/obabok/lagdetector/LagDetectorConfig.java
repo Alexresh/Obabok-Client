@@ -12,5 +12,8 @@ public class LagDetectorConfig implements OConfigInstance {
     public static class LagDetectorModule {
         @ConfigValue
         public boolean lagDetectorEnabled = false;
+
+        @ConfigValue
+        public int threshold = 1500;
     }
 }
