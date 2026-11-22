@@ -1,0 +1,5 @@
+{
+  "o-base.config.module.elytra": "Elytra",
+  "o-base.config.module.elytra.allow_water_takeoff": "Allow water takeoff",
+  "o-base.config.module.elytra.allow_lava_takeoff": "Allow lava takeoff"
+}

@@ -1,0 +1,5 @@
+{
+  "o-base.config.module.elytra": "Элитры",
+  "o-base.config.module.elytra.allow_water_takeoff": "Взлёт из воды",
+  "o-base.config.module.elytra.allow_lava_takeoff": "Взлёт из лавы"
+}
