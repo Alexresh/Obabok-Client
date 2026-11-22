@@ -1,0 +1,20 @@
+{
+	"schemaVersion": 1,
+	"id": "elytra",
+	"version": "${version}",
+	"name": "Elytra",
+	"authors": [
+		"Obabok"
+	],
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"ru.obabok.elytra.ElytraModuleInit"
+		]
+	},
+	"mixins": [
+		{
+			"config": "elytra.mixins.json"
+		}
+	]
+}
